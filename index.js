@@ -1,8 +1,21 @@
 const express = require("express");
+const mongoose = require("mongoose");
+require("dotenv").config();
 const bodyParser = require('body-parser');
+const animalRoutes = require("./routers/animal");
+
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+mongoose.connect(process.env.MONGODB_URI)
+.then(() => console.log("connected to mongoDB Atlas"))
+.catch((error) => console.error(error));
+
+app.use('/api', animalRoutes);
+app.use(express.json());
+
+
+
 let usuario = {
  cancion:'',
  autor: '',
